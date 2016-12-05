@@ -1,59 +1,102 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+public class Main extends JFrame {
 
-/**
- * Created by Sam on 04.12.2016.
- */
-public class Main implements ActionListener {
     JLabel jlab;
+    private JMenu menuFile;
+    private JMenuItem menuOpen;
+    private JMenuItem menuClose;
+    private JMenuItem menuSave;
+    private JMenuItem menuExit;
+    private JMenu menuOptions;
+    private JMenu menuHelp;
+    private JTextArea theText;
     private JPanel panelMain;
 
-    Main(){
-        //создать новый контейнер типа JFrame
-        JFrame jfrm = new JFrame("Swing notepad");
+    Main() {
+        super("Swing notepad");
+        initMenuBar();
+        initMainPanel();
+        initListeners();
 
-        //указываем диспетчер поточной компановки типа FlowLayout
-        jfrm.setLayout(new FlowLayout());
+    }
 
-        jfrm.setSize(600, 400);
-        jfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+    private void initMenuBar() {
         //создаем метку для отображения результатов выбора из меню
         jlab = new JLabel();
-
         //создаем строку меню
         JMenuBar jMenuBar = new JMenuBar();
 
-        JMenu jmFile = new JMenu("File");
-        JMenuItem jmiOpen = new JMenuItem("Open");
-        JMenuItem jmiClose = new JMenuItem("Close");
-        JMenuItem jmiSave = new JMenuItem("Save");
-        JMenuItem jmiExit = new JMenuItem("Exit");
-        jmFile.add(jmiOpen);
-        jmFile.add(jmiClose);
-        jmFile.add(jmiSave);
-        jmFile.addSeparator();
-        jmFile.add(jmiExit);
-        jMenuBar.add(jmFile);
+        menuFile = new JMenu("File");
+        menuOpen = new JMenuItem("Open");
+        menuClose = new JMenuItem("Close");
+        menuSave = new JMenuItem("Save");
+        menuExit = new JMenuItem("Exit");
+        menuFile.add(menuOpen);
+        menuFile.add(menuClose);
+        menuFile.add(menuSave);
+        menuFile.addSeparator();
+        menuFile.add(menuExit);
+        jMenuBar.add(menuFile);
 
+        menuOptions = new JMenu("Options");
 
+        JMenu jmColors = new JMenu("Colors");
+        JMenuItem jmiRed = new JMenuItem("Red");
+        JMenuItem jmiGreen = new JMenuItem("Green");
+        JMenuItem jmiBlue = new JMenuItem("Blue");
+        jmColors.add(jmiRed);
+        jmColors.add(jmiGreen);
+        jmColors.add(jmiBlue);
+        menuOptions.add(jmColors);
 
-        jfrm.add(jlab);
-        jfrm.setJMenuBar(jMenuBar);
-        jfrm.setVisible(true);
+        JMenu jmFont = new JMenu("Font");
+        JMenuItem jmiTNR = new JMenuItem("Times New Roman");
+        JMenuItem jmiColibri = new JMenuItem("Colibri");
+        jmFont.add(jmiTNR);
+        jmFont.add(jmiColibri);
+        menuOptions.add(jmFont);
+
+        jMenuBar.add(menuOptions);
+
+        menuHelp = new JMenu("Help");
+        JMenuItem jmiAbout = new JMenuItem("About");
+        menuHelp.add(jmiAbout);
+        jMenuBar.add(menuHelp);
+
+        add(jlab);
+        setJMenuBar(jMenuBar);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new Main();
+    private void initMainPanel() {
+        panelMain = new JPanel(new BorderLayout());
+        theText = new JTextArea();
+        panelMain.add(new JScrollPane(theText), BorderLayout.CENTER);
+        getContentPane().add(panelMain);
+    }
+
+    private void initListeners() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        menuSave.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //saving
+
+            }
+        });
+        menuExit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
             }
         });
     }
 
-    public void actionPerformed(ActionEvent e) {
-
+    public static void main(String[] args) {
+        Main mainNote = new Main();
+        mainNote.setBounds(200, 200, 800, 500);
+        mainNote.setVisible(true);
     }
 }
